@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CineArt - A Magia do Cinema</title>
+    <style>
+      /* Reset e Estilos Base */
+      :root {
+        --primary: #d22f26;
+        --primary-dark: #9d1f19;
+        --secondary: #1a1919;
+        --light: #f8f8f8;
+        --dark: #222;
+        --accent: #f5c518;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--secondary);
+        color: var(--light);
+        line-height: 1.6;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 25px;
+        background: var(--primary);
+        color: white;
+        border-radius: 4px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: var(--accent);
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        width: 50%;
+        height: 3px;
+        background: var(--primary);
+        bottom: -10px;
+        left: 0;
+      }
+
+      /* Header */
+      header {
+        background-color: rgba(0, 0, 0, 0.8);
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+        padding: 1rem 0;
+        transition: all 0.3s ease;
+      }
+
+      header.scrolled {
+        background-color: rgba(26, 25, 25, 0.95);
+        padding: 0.5rem 0;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 50px;
+        margin-right: 10px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        bottom: -5px;
+        left: 0;
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        padding-top: 80px;
+      }
+
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.1),
+          rgba(0, 0, 0, 0.8)
+        );
+        z-index: 1;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        padding: 0 20px;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        animation: fadeInDown 1s ease;
+      }
+
+      .hero p {
+        font-size: 1.5rem;
+        margin-bottom: 2.5rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        animation: fadeInUp 1s ease 0.3s both;
+      }
+
+      .hero .btn {
+        animation: fadeInUp 1s ease 0.6s both;
+      }
+
+      /* Now Showing */
+      .now-showing {
+        padding: 5rem 0;
+        background-color: var(--dark);
+      }
+
+      .movies-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .movie-card {
+        background: #2a2a2a;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .movie-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .movie-poster {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+      }
+
+      .movie-info {
+        padding: 1.5rem;
+      }
+
+      .movie-title {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .movie-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        color: #aaa;
+      }
+
+      .movie-rating {
+        color: var(--accent);
+        font-weight: bold;
+      }
+
+      /* Coming Soon */
+      .coming-soon {
+        padding: 5rem 0;
+        background-color: var(--secondary);
+      }
+
+      /* Schedule */
+      .schedule {
+        padding: 5rem 0;
+        background-color: var(--dark);
+      }
+
+      .schedule-days {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+
+      .schedule-day {
+        padding: 10px 20px;
+        background: #333;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .schedule-day.active {
+        background: var(--primary);
+      }
+
+      .schedule-day:hover {
+        background: #444;
+      }
+
+      .schedule-times {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .time-slot {
+        background: #333;
+        padding: 15px;
+        border-radius: 4px;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .time-slot:hover {
+        background: var(--primary);
+        transform: scale(1.05);
+      }
+
+      /* Promotions */
+      .promotions {
+        padding: 5rem 0;
+        background-color: var(--secondary);
+      }
+
+      .promo-card {
+        background: #2a2a2a;
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .promo-image {
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .promo-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .promo-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--accent);
+      }
+
+      .promo-btn {
+        margin-top: auto;
+        align-self: flex-start;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #111;
+        padding: 3rem 0 1rem;
+        color: #aaa;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-column h3 {
+        color: var(--light);
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-column h3::after {
+        content: "";
+        position: absolute;
+        width: 50px;
+        height: 2px;
+        background: var(--primary);
+        bottom: 0;
+        left: 0;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-links a {
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: #333;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a img {
+        width: 24px; /* Define a largura da imagem */
+        height: 24px; /* Define a altura da imagem para que seja proporcional */
+      }
+      
+      .social-links a:hover {
+        background: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid #333;
+      }
+
+      /* Animations */
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .hero h1 {
+          font-size: 3rem;
+        }
+
+        .hero p {
+          font-size: 1.2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-links {
+          gap: 1rem;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .movies-grid {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .schedule-times {
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header id="header">
+      <div class="container">
+        <nav class="navbar">
+          <a href="#" class="logo">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/328c3e15-3d9e-4e40-9fef-19f842e21fdc.png"
+              alt="Cinema cadeira vermelha de teatro com logo CineArt"
+            />
+            CineArt
+          </a>
+          <ul class="nav-links">
+            <li><a href="#">Início</a></li>
+            <li><a href="#now-showing">Em Cartaz</a></li>
+            <li><a href="#coming-soon">Em Breve</a></li>
+            <li><a href="#schedule">Programação</a></li>
+            <li><a href="#promotions">Promoções</a></li>
+            <li><a href="#contact">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <img
+        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e246bb3c-56ea-4ad6-a95b-bc4ca6ef482f.png"
+        alt="Grande plateia de cinema com poltronas vermelhas vazias aguardando o público para a próxima sessão"
+        class="hero-bg"
+      />
+      <div class="hero-content">
+        <h1>Viva a Magia do Cinema</h1>
+        <p>
+          As melhores produções nacionais e internacionais em uma experiência
+          audiovisual imersiva
+        </p>
+        <a href="#now-showing" class="btn">Ver Filmes em Cartaz</a>
+      </div>
+    </section>
+
+    <!-- Now Showing -->
+    <section id="now-showing" class="now-showing">
+      <div class="container">
+        <h2 class="section-title">Filmes em Cartaz</h2>
+        <div class="movies-grid">
+          <!-- Movie 1 -->
+          <div class="movie-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a4801701-7375-4493-ae65-09b33bb9257a.png"
+              alt="Poster do filme Aventuras Espaciais - nave espacial sobrevoando planeta alienígena com dois astronautas em primeiro plano"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <h3 class="movie-title">Aventuras Espaciais</h3>
+              <div class="movie-meta">
+                <span>2h15min</span>
+                <span class="movie-rating">★ 4.7</span>
+              </div>
+              <a href="#" class="btn">Comprar Ingresso</a>
+            </div>
+          </div>
+
+          <!-- Movie 2 -->
+          <div class="movie-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0fc0c9d6-3676-41d3-8793-9a8702dc86a3.png"
+              alt="Poster do filme A Última Jornada - grupo diversificado de aventureiros em paisagem montanhosa nebulosa"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <h3 class="movie-title">A Última Jornada</h3>
+              <div class="movie-meta">
+                <span>1h48min</span>
+                <span class="movie-rating">★ 4.5</span>
+              </div>
+              <a href="#" class="btn">Comprar Ingresso</a>
+            </div>
+          </div>
+
+          <!-- Movie 3 -->
+          <div class="movie-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/adafb7db-01da-4a9b-9c32-a9efaad1a8a2.png"
+              alt="Poster do filme Coralina - animação infantil com menina corajosa explorando mundo mágico cheio de criaturas fantásticas"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <h3 class="movie-title">Coralina</h3>
+              <div class="movie-meta">
+                <span>1h36min</span>
+                <span class="movie-rating">★ 4.8</span>
+              </div>
+              <a href="#" class="btn">Comprar Ingresso</a>
+            </div>
+          </div>
+
+          <!-- Movie 4 -->
+          <div class="movie-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/883c2908-540c-4fe4-9da1-ae32b1675a15.png"
+              alt="Poster do filme O Mistério de Greystone - mansão antiga assombrada com personagens principais segurando lanternas na entrada escura"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <h3 class="movie-title">O Mistério de Greystone</h3>
+              <div class="movie-meta">
+                <span>2h05min</span>
+                <span class="movie-rating">★ 4.2</span>
+              </div>
+              <a href="#" class="btn">Comprar Ingresso</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coming Soon -->
+    <section id="coming-soon" class="coming-soon">
+      <div class="container">
+        <h2 class="section-title">Em Breve</h2>
+        <div class="movies-grid">
+          <!-- Movie 1 -->
+          <div class="movie-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/30d67c50-877e-4a19-a941-7bbcef710544.png"
+              alt="Poster do filme Em Busca do Tesouro Perdido - mapa antigo desenrolado sobre mesa de madeira com bússola e moedas douradas"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <h3 class="movie-title">Em Busca do Tesouro Perdido</h3>
+              <div class="movie-meta">
+                <span class="movie-rating">Estreia: 15/11</span>
+              </div>
+              <a href="#" class="btn">Saiba Mais</a>
+            </div>
+          </div>
+
+          <!-- Movie 2 -->
+          <div class="movie-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fab12dfd-fc11-456f-ba8b-1eec2f33478f.png"
+              alt="Poster do filme O Último Samurai - guerreiro com vestes tradicionais em floresta de bambu ao entardecer"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <h3 class="movie-title">O Último Samurai</h3>
+              <div class="movie-meta">
+                <span class="movie-rating">Estreia: 22/11</span>
+              </div>
+              <a href="#" class="btn">Saiba Mais</a>
+            </div>
+          </div>
+
+          <!-- Movie 3 -->
+          <div class="movie-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/87cdbce7-3040-41bc-8c04-8c53e1f8068f.png"
+              alt="Poster do filme A Invenção de Hugo - menino mecânico observando cidade iluminada por dentro de engrenagens gigantes"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <h3 class="movie-title">A Invenção de Hugo</h3>
+              <div class="movie-meta">
+                <span class="movie-rating">Estreia: 29/11</span>
+              </div>
+              <a href="#" class="btn">Saiba Mais</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Schedule -->
+    <section id="schedule" class="schedule">
+      <div class="container">
+        <h2 class="section-title">Programação</h2>
+        <div class="schedule-days">
+          <div class="schedule-day active">Hoje</div>
+          <div class="schedule-day">Amanhã</div>
+          <div class="schedule-day">Quarta</div>
+          <div class="schedule-day">Quinta</div>
+          <div class="schedule-day">Sexta</div>
+          <div class="schedule-day">Sábado</div>
+          <div class="schedule-day">Domingo</div>
+        </div>
+        <div class="schedule-times">
+          <div class="time-slot">14:00</div>
+          <div class="time-slot">16:30</div>
+          <div class="time-slot">19:00</div>
+          <div class="time-slot">21:30</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promotions -->
+    <section id="promotions" class="promotions">
+      <div class="container">
+        <h2 class="section-title">Promoções</h2>
+        <div class="movies-grid">
+          <!-- Promotion 1 -->
+          <div class="promo-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ab0adbbf-9970-4cdb-87fe-cd236bdea6f5.png"
+              alt="Promoção Meio-Preço: plateia de cinema com pessoas felizes durante sessão especial com pipoca e refrigerante"
+              class="promo-image"
+            />
+            <div class="promo-content">
+              <h3 class="promo-title">Meio-Preço às Quartas</h3>
+              <p>
+                Todos os ingressos com 50% de desconto nas sessões das
+                quartas-feiras.
+              </p>
+              <a href="#" class="btn promo-btn">Aproveitar</a>
+            </div>
+          </div>
+
+          <!-- Promotion 2 -->
+          <div class="promo-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6f339801-971f-4da3-aecc-9dbcad9b9c69.png"
+              alt="Combo Família: família sorridente com baldes de pipoca e copos de refrigerante em sala de cinema"
+              class="promo-image"
+            />
+            <div class="promo-content">
+              <h3 class="promo-title">Combo Família</h3>
+              <p>
+                4 ingressos + 2 baldes grandes de pipoca + 4 refrigerantes por
+                um preço especial.
+              </p>
+              <a href="#" class="btn promo-btn">Aproveitar</a>
+            </div>
+          </div>
+
+          <!-- Promotion 3 -->
+          <div class="promo-card">
+            <img
+              src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0074700d-f26a-4912-b3ee-423a25caa99b.png"
+              alt="Aniversariante do Mês: bolo de aniversário decorado com temas de cinema em mesa com ingressos ao redor"
+              class="promo-image"
+            />
+            <div class="promo-content">
+              <h3 class="promo-title">Aniversariante do Mês</h3>
+              <p>Ganhe um ingresso grátis no mês do seu aniversário!</p>
+              <a href="#" class="btn promo-btn">Aproveitar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>Sobre o CineArt</h3>
+            <p>
+              O CineArt traz filmes de qualidade em uma experiência
+              cinematográfica premium desde 1995.
+            </p>
+            <div class="social-links">
+              <a href="#"
+                ><img
+                  src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e31ec084-463b-4418-ba4b-d613d249cfc0.png"
+                  alt="Ícone Facebook"
+              /></a>
+              <a href="#"
+                ><img
+                  src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a7c79793-4d60-4787-852e-5192a4f85cc7.png"
+                  alt="Ícone Instagram"
+              /></a>
+              <a href="#"
+                ><img
+                  src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4504fa61-0d59-47ca-811b-ea3c734ee100.png"
+                  alt="Ícone Twitter"
+              /></a>
+              <a href="#"
+                ><img
+                  src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bb36ccf5-91e1-468c-8c84-9f8f479270cf.png"
+                  alt="Ícone YouTube"
+              /></a>
+            </div>
+          </div>
+
+          <div class="footer-column">
+            <h3>Links Rápidos</h3>
+            <ul class="footer-links">
+              <li><a href="#">Política de Privacidade</a></li>
+              <li><a href="#">Termos de Uso</a></li>
+              <li><a href="#">Regras do Cinema</a></li>
+              <li><a href="#">Trabalhe Conosco</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Contato</h3>
+            <ul class="footer-links">
+              <li>Av. Cinematográfica, 1234</li>
+              <li>São Paulo - SP</li>
+              <li>(11) 1234-5678</li>
+              <li>contato@cineart.com.br</li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Assine Nossa Newsletter</h3>
+            <form>
+              <input
+                type="email"
+                placeholder="Seu e-mail"
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  margin-bottom: 10px;
+                  border-radius: 4px;
+                  border: none;
+                "
+              />
+              <button type="submit" class="btn" style="width: 100%">
+                Assinar
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="copyright">
+          <p>© 2023 CineArt. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Header Scrolled Effect
+      window.addEventListener("scroll", function () {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // Schedule Day Selection
+      const days = document.querySelectorAll(".schedule-day");
+      days.forEach((day) => {
+        day.addEventListener("click", function () {
+          document
+            .querySelector(".schedule-day.active")
+            .classList.remove("active");
+          this.classList.add("active");
+        });
+      });
+
+      // Smooth Scrolling for Anchor Links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Image Loading Fallback
+      const images = document.querySelectorAll("img");
+      images.forEach((img) => {
+        img.addEventListener("error", function () {
+          this.style.display = "none";
+          const container = this.closest(".movie-card, .promo-card");
+          if (container) {
+            container.style.background = "#333";
+            container.style.display = "flex";
+            container.style.alignItems = "center";
+            container.style.justifyContent = "center";
+            container.style.minHeight = "300px";
+            container.innerHTML = "<p>Imagem não disponível</p>";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
