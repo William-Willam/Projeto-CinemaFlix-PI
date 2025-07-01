@@ -1,45 +1,68 @@
-Projeto CinemaFlix-PI
-🎬 Descrição do Projeto
-O CinemaFlix é um sistema projetado para simular a venda de ingressos de um cinema, com ênfase na reserva de cadeiras por sessão. O objetivo principal é garantir que nenhuma cadeira seja vendida mais de uma vez, mesmo em situações de alta demanda.
+# 🎬 CinemaFlix-PI
 
-A motivação para o desenvolvimento deste sistema surgiu a partir de um incidente real no cinema do Shopping JK, onde duas pessoas adquiriram ingressos para a mesma cadeira, resultando em conflito e constrangimento durante a exibição do filme. O CinemaFlix visa evitar esse tipo de erro, proporcionando um controle mais eficiente e seguro das reservas.
+## Sobre o Projeto
 
-🎯 Objetivos do Projeto
-Evitar conflitos de assentos duplicados.
-Garantir que cada cadeira possa ser reservada apenas uma vez por sessão.
-Simular uma aplicação completa com frontend (React) e backend (Node.js + MySQL).
-Praticar conceitos de autenticação, requisições API REST e controle de estados no React.
-Implementar controle de sessões e disponibilidade em tempo real.
-🛠️ Tecnologias Utilizadas
-Frontend
-React.js
-Vite
-Axios
-Backend
-Node.js
-Express
-MySQL
-Sequelize (ou outro ORM)
-JWT (para autenticação)
-📂 Funcionalidades
-🔐 Login e cadastro de usuários
-🎟️ Listagem de filmes em cartaz
-🕒 Escolha de sessão (data e horário)
-💺 Seleção de cadeiras disponíveis
-✅ Confirmação de reserva
-🔄 Prevenção de reservas duplicadas (concorrência controlada no backend)
-🧾 Histórico de ingressos por usuário (em desenvolvimento)
-⚠️ Prevenção de Erros
-A lógica do backend foi implementada com transações no banco de dados, garantindo que duas pessoas não consigam reservar a mesma cadeira simultaneamente, mesmo em condições de alta concorrência (por exemplo, vários usuários clicando na mesma cadeira ao mesmo tempo).
+O **CinemaFlix** é uma aplicação web desenvolvida para simular a venda de ingressos de cinema, com foco em garantir a segurança e exclusividade na reserva de assentos por sessão. Inspirado por um incidente real no Shopping JK — onde dois clientes compraram ingressos para a mesma cadeira — o sistema foi criado para eliminar conflitos desse tipo, promovendo uma experiência confiável, fluida e sem constrangimentos.
 
-📈 Futuras Melhorias
-Integração com pagamento online (ex: Stripe ou PayPal)
-Geração de QR Code para entrada no cinema
-Dashboard administrativo para gerenciamento de sessões e salas
-Notificações por e-mail ou WhatsApp
-👨‍💻 Autor
-Desenvolvido por William dos Santos como parte de um estudo prático em desenvolvimento de sistemas web, inspirado por um caso real.
+---
 
-📝 Licença
-Este projeto está sob a licença MIT. Sinta-se à vontade para usá-lo e adaptá-lo, desde que os devidos créditos sejam dados.
+## 🎯 Principais Objetivos
 
+- **Evitar duplicidade de reservas:** Garantia de que cada cadeira possa ser reservada apenas uma vez por sessão, mesmo em situações de alta concorrência.
+- **Simulação de aplicação real:** Integração de frontend (React) e backend (Node.js + MySQL) para uma experiência completa.
+- **Prática de conceitos fundamentais:** Autenticação, requisições REST API, controle de estado no React e gerenciamento seguro de sessões.
+- **Atualização de disponibilidade em tempo real:** Controle dinâmico das reservas e ocupação de assentos.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+### Frontend
+- **React.js** (Vite)
+- **Axios**
+
+### Backend
+- **Node.js**
+- **Express**
+- **MySQL**
+- **Sequelize** (ou outro ORM)
+- **JWT** (para autenticação)
+
+---
+
+## 📂 Funcionalidades
+
+- **Cadastro e login de usuários**
+- **Listagem de filmes em cartaz**
+- **Escolha de sessões (data e horário)**
+- **Seleção de cadeiras disponíveis**
+- **Confirmação de reserva**
+- **Prevenção de reservas duplicadas** (controle de concorrência no backend)
+- **Histórico de ingressos por usuário** (em desenvolvimento)
+
+---
+
+## ⚠️ Segurança e Prevenção de Erros
+
+O backend utiliza transações no banco de dados para garantir a integridade das reservas, prevenindo que duas pessoas reservem a mesma cadeira simultaneamente — mesmo diante de múltiplos acessos concorrentes.
+
+---
+
+## 📈 Melhorias Futuras
+
+- Integração com pagamento online (Stripe, PayPal, etc.)
+- Geração de QR Code para acesso ao cinema
+- Dashboard administrativo para gerenciamento de sessões e salas
+- Notificações automáticas por e-mail ou WhatsApp
+
+---
+
+## 👨‍💻 Sobre o Autor
+
+Desenvolvido por **William dos Santos** como parte de um estudo prático em desenvolvimento de sistemas web, inspirado por um caso real.
+
+---
+
+## 📝 Licença
+
+Este projeto está licenciado sob a **MIT License**. Sinta-se à vontade para utilizar e adaptar, desde que os devidos créditos sejam mantidos.
